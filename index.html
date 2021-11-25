@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+        integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+        integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+        crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+        integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+        crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                // customised options
+                // • auto-render specific keys, e.g.:
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                // • rendering keys, e.g.:
+                throwOnError: false
+            });
+        });
+    </script>
+
+    <style>
+        .thumb {
+            text-align: center;
+            height: 100px;
+            width: auto;
+            border: 1px solid #eee;
+            box-shadow: 0px 0px 2px #444444;
+        }
+
+        pre {
+            margin-bottom: 0;
+            font-family: Consolas, Monaco, monospace;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+            width: 90%;
+            color: #444;
+            padding: 10px;
+            background: #eee;
+            border: 1px solid #ccc;
+            overflow: auto;
+        }
+    </style>
+
+    <title>Attribute-specific Control Units in StyleGAN for Fine-grained Image Manipulation</title>
+</head>
+
+<body>
+
+    <div class="container" style="padding-top: 100px;padding-bottom: 100px;">
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-center">
+                    <h1>Attribute-specific Control Units in StyleGAN for Fine-grained Image Manipulation</h1>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-10 text-center">
+                    Rui Wang<sup>1</sup>&ensp;&ensp;
+                    Jian Chen<sup>2</sup>&ensp;&ensp;
+                    Gang Yu<sup>2</sup>&ensp;&ensp;
+                    Li Sun<sup>3</sup>&ensp;&ensp;
+                    Changqian Yu<sup>1</sup>&ensp;&ensp;
+                    Changxin Gao<sup>1*</sup>&ensp;&ensp;
+                    Nong Sang<sup>1</sup>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-center font-weight-light">
+                    <sup>1</sup>Key Laboratory of Image Processing and Intelligent Control, School of Artificial
+                    Intelligence and Automation, Huazhong University of Science and Technology, Wuhan, China&ensp;&ensp;
+                    <sup>2</sup>Tencent, Shanghai, China&ensp;&ensp;
+                    <sup>3</sup>East China Normal University, Shanghai, China
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-center">
+                    <br>
+                    <a href="https://github.com/budui/Control-Units-in-StyleGAN2">Arxiv</a> |
+                    <a href="https://dl.acm.org/doi/10.1145/3474085.3475274">DOI</a> |
+                    <a href="https://github.com/budui/Control-Units-in-StyleGAN2">Code</a>
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+        <hr>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <h2>Abstract</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    Image manipulation with StyleGAN has been an increasing concern in recent years. Recent works have
+                    achieved tremendous success in analyzing several semantic latent spaces to edit the attributes of
+                    the generated images. However, due to the limited semantic and spatial manipulation precision in
+                    these latent spaces, the existing endeavors are defeated in fine-grained StyleGAN image
+                    manipulation, i.e., local attribute translation. To address this issue, we discover
+                    attribute-specific control units, which consist of multiple channels of feature maps and modulation
+                    styles. Specifically, we collaboratively manipulate the modulation style channels and feature maps
+                    in control units rather than individual ones to obtain the semantic and spatial disentangled
+                    controls. Furthermore, we propose a simple yet effective method to detect the attribute-specific
+                    control units. We move the modulation style along a specific sparse direction vector and replace the
+                    filter-wise styles used to compute the feature maps to manipulate these control units. We evaluate
+                    our proposed method in various face attribute manipulation tasks. Extensive qualitative and
+                    quantitative results demonstrate that our proposed method performs favorably against the
+                    state-of-the-art methods. The manipulation results of real images further show the effectiveness of
+                    our method.
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <hr>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <h2>Attribute-Specific Control Units</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    Feature maps in StyleGAN2 Generator activate consistently in different semantic regions across
+                    various generated images:
+                    <figure>
+                        <img src="asserts/channels_of_feature_maps.jpg" class="img-fluid"
+                            alt="channels_of_feature_maps">
+                        <figcaption class="justify-content-center text-center"><small>The first 9 channels of the input
+                                features of the 11th convolutional layer.</small></figcaption>
+                    </figure>
+
+                    <br>
+                    <p>
+                        We divided each channel of the intermediate features into different
+                        region-specific groups based on the spatial location of the top activated
+                        region of the feature map with a simple yet effective gradient-based strategy.
+                    </p>
+                    <p>
+                        So we can modify the modulation styles of the convolutional layer by moving along the sparse
+                        direction vector.
+                        More specifically, we use a portion of the difference between the positive and negative sample
+                        latent code as the editing direction vector.
+                    </p>
+
+                    <figure>
+                        <img src="asserts/portion_of_difference.jpg" class="img-fluid" alt="portion_of_difference">
+                        <figcaption class="justify-content-center text-center"><small>The edited result of the sparse
+                                direction vector</small></figcaption>
+                    </figure>
+                    <p>
+                        However, the results manipulated by these sparse direction vectors still
+                        suffer from the <b>insufficient change</b> or <b>entanglement</b> issue:
+                    </p>
+                    <div class="justify-content-center">
+                        <img src="asserts/problem_of_sparse_direction.jpg" class="img-fluid "
+                            alt="problem_of_sparse_direction">
+                    </div>
+                    <p>
+                        The editing results are strongly correlated with the spatial distribution of the
+                        feature maps. We should <b>collaboratively</b> manipulate the modulation styles and
+                        feature maps rather than individual ones to obtain the fine-grained controls.
+                    </p>
+                    <p>
+                        The specific semantic region’s attribute is controlled by a few channels of
+                        intermediate feature and its corresponding modulation styles, which
+                        are represented as <b>control units</b>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <hr>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <h2>Pipeline</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <p>Visualization of a typical attribute manipulation pipeline:</p>
+
+                    <figure>
+                        <img src="asserts/framework.jpg" class="img-fluid" alt="framework">
+                        <figcaption class="justify-content-center text-center">
+                            <small>The gray feature maps indicate that they have changed because of our modification.</small>
+                        </figcaption>
+                    </figure>
+                    <p>
+                        Our modification consists of a optimized styles $\hat{S}^{l-1}$ and a direction vector
+                        $\Delta{S}^l$. A few channels of $F^l$ are replaced by $F^{l}_{U_a}$ computed with $\hat{S}^{l-1}$, while other
+                        channels of $F^l$ keep untouched.
+                        The original modulation style $S^l$ and $\Delta{S}^l$ are summed to form the new modulation style.
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+        <hr>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <h2>Results</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <figure>
+                        <img src="asserts/control_units.jpg" class="img-fluid" alt="control_units">
+                        <figcaption class="justify-content-center text-center">
+                            <p>Control units for various attributes</p>
+                        </figcaption>
+                    </figure>
+                    <figure>
+                        <img src="asserts/replacement.jpg" class="img-fluid" alt="replacement">
+                        <figcaption class="justify-content-center text-center">
+                            <p>Comparison of the manipulation to control units with/without replacement</p>
+                        </figcaption>
+                    </figure>
+                    <figure>
+                        <img src="asserts/attributes.jpg" class="img-fluid" alt="attributes">
+                        <figcaption class="justify-content-center text-center">
+                            <p>Manipulating various different attributes of different semantic regions</p>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+        <hr>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <h2>Citation</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-9 text-left">
+
+                    <pre>
+@inproceedings{10.1145/3474085.3475274,
+    author = {Wang, Rui and Chen, Jian and Yu, Gang and Sun, Li and Yu, Changqian and Gao, Changxin and Sang, Nong},
+    title = {Attribute-Specific Control Units in StyleGAN for Fine-Grained Image Manipulation},
+    year = {2021},
+    isbn = {9781450386517},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/3474085.3475274},
+    doi = {10.1145/3474085.3475274},
+    booktitle = {Proceedings of the 29th ACM International Conference on Multimedia},
+    pages = {926–934},
+    numpages = {9},
+    keywords = {generative adversarial networks(GANs), control unit, image manipulation},
+    location = {Virtual Event, China},
+    series = {MM '21}
+}</pre>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+        <hr>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <h2>Acknowledgments</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    This work is supported by National Natural Science Foundation of China (No. 61876210), Science and
+                    Technology Commission of Shanghai Municipality (No. 19511120800).
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <hr>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    <h2>Contact</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 text-left">
+                    Rui Wang
+                    <a href=# class=cryptedmail data-name=wangbudui data-domain=foxmail data-tld=com
+                        onclick="return window.location.href='mailto:'+this.dataset.name+'@'+this.dataset.domain+'.'+this.dataset.tld,!1"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <style>
+        .cryptedmail:after {
+            content: attr(data-name) "@"attr(data-domain) "."attr(data-tld);
+        }
+    </style>
+</body>
+
+</html>
