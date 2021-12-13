@@ -52,6 +52,7 @@ def prev(
     print(locals())
     G = ImprovedStyleGAN2Generator.load(checkpoint, device=device, default_truncation=truncation)
     G.manipulation_mode()
+    G.eval()
     G.requires_grad_(False)
 
     if seed is not None:
