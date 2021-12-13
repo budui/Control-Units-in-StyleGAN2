@@ -273,5 +273,4 @@ Thumbs.db
 /runs/
 training/engine/Tester.py
 configs/test.yml
-tmp/
 pretrained
