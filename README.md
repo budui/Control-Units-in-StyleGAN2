@@ -5,22 +5,66 @@
 The official PyTorch implementation for MM'21 paper 'Attribute-specific Control Units in StyleGAN for Fine-grained Image Manipulation'
 
 
-We are planning to publish a detailed tutorial on how to use it in a few days.
+## Pretrained Models
 
-Take a look first:
+We provide the pretrained StyleGAN2 generator, face parser, attribute classifier and e4e encoder in the following link.
+
+[Google Drive](https://drive.google.com/drive/folders/1g-ukOZ_KZXHSroLXq87jTx7iTlIinhzf?usp=sharing)
+
+Please download the pre-trained StyleGAN2 generator at least. Put the models in `./pretrained`.
+
+Now, the structure  folder `pretrained` maybe looks like:
+
 
 ```bash
-# Download pretrained StyleGAN2 model: https://drive.google.com/file/d/1EM87UquaoQmk17Q8d5kYIAHqu0dkYqdT/view?usp=sharing
-# And put it in ./pretrained
-# Run this command and then see the editing result in ./tmp
+$ tree ./pretrained
+./pretrained/
+|-- Attribute_CelebAMask-HQ_40_classifier.pth
+|-- BiSetNet.pth
+|-- correction.pt
+|-- e4e_ffhq_encode.pt
+|-- modifications
+|   |-- before_Bushy_Eyebrows_s_123,315,325.mdfc
+|   |-- before_alter_Black_Hair_12.mdfc
+|   |-- before_alter_Blond_Hair_12.mdfc
+|   `-- before_single_channel_11_286.mdfc
+`-- stylegan2-ffhq-config-f.pt
+```
+
+
+## Set up the environment
+
+Detailed setup information can be found in [environment](documents/environment.md).
+
+We also provide the [environment.yml](environment.yml) as a reference. In general, make sure the gcc version is new enough, and all other packages can be installed via conda or pip.
+
+## Test
+
+Let's get started quickly:
+
+```bash
 python3 manipulation.py test ./pretrained/modifications/before_alter_Black_Hair_12.mdfc --max_factor 20
 ```
 
-# Pretrained Models
+This command will save the editing results in `./tmp`:
 
-Please download the pre-trained models from the following link
+```bash
+$ tree ./tmp
+tmp
+|-- before_alter_Black_Hair_12_mdfc0_batch0.jpg
+`-- before_alter_Black_Hair_12_mdfc0_batch0_diff.jpg
+```
 
-[Google Drive](https://drive.google.com/drive/folders/1g-ukOZ_KZXHSroLXq87jTx7iTlIinhzf?usp=sharing)
+The image named as `{mdfc_file_name}_{mdfc_id}_{batch_id}.jpg` is the generated manipulated grid image, and the `{mdfc_file_name}_{mdfc_id}_{batch_id}_diff.jpg` is the manipulated error image.
+
+`{mdfc_file_name}_{mdfc_id}_{batch_id}.jpg`:
+
+![before_alter_Black_Hair_12_mdfc0_batch0.jpg](documents/images/tmp/before_alter_Black_Hair_12_mdfc0_batch0.jpg)
+
+`{mdfc_file_name}_{mdfc_id}_{batch_id}_diff.jpg`:
+
+![before_alter_Black_Hair_12_mdfc0_batch0_diff.jpg](documents/images/tmp/before_alter_Black_Hair_12_mdfc0_batch0_diff.jpg "{mdfc_file_name}_{mdfc_id}_{batch_id}_diff.jpg")
+
 
 
 
